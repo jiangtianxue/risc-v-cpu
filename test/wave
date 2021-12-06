@@ -1,0 +1,92 @@
+#! /usr/bin/vvp
+:ivl_version "10.3 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x55c002318e20 .scope module, "counter_tb" "counter_tb" 2 27;
+ .timescale 0 0;
+v0x55c00232a7c0_0 .var "clk", 0 0;
+v0x55c00232a880_0 .net "cnt", 3 0, L_0x55c00232ac90;  1 drivers
+v0x55c00232a950_0 .net "cout", 0 0, L_0x55c00232ab50;  1 drivers
+v0x55c00232aa50_0 .var "rstn", 0 0;
+S_0x55c002318fa0 .scope module, "inst1" "counter" 2 33, 3 23 0, S_0x55c002318e20;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "rstn"
+    .port_info 1 /INPUT 1 "clk"
+    .port_info 2 /OUTPUT 4 "cnt"
+    .port_info 3 /OUTPUT 1 "cout"
+L_0x55c00232ac90 .functor BUFZ 4, v0x55c00232a490_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x7f373c99a018 .functor BUFT 1, C4<1001>, C4<0>, C4<0>, C4<0>;
+v0x55c0022e2030_0 .net/2u *"_s0", 3 0, L_0x7f373c99a018;  1 drivers
+v0x55c00232a2e0_0 .net "clk", 0 0, v0x55c00232a7c0_0;  1 drivers
+v0x55c00232a3a0_0 .net "cnt", 3 0, L_0x55c00232ac90;  alias, 1 drivers
+v0x55c00232a490_0 .var "cnt_temp", 3 0;
+v0x55c00232a570_0 .net "cout", 0 0, L_0x55c00232ab50;  alias, 1 drivers
+v0x55c00232a680_0 .net "rstn", 0 0, v0x55c00232aa50_0;  1 drivers
+E_0x55c0022e2890/0 .event negedge, v0x55c00232a680_0;
+E_0x55c0022e2890/1 .event posedge, v0x55c00232a2e0_0;
+E_0x55c0022e2890 .event/or E_0x55c0022e2890/0, E_0x55c0022e2890/1;
+L_0x55c00232ab50 .cmp/eq 4, v0x55c00232a490_0, L_0x7f373c99a018;
+    .scope S_0x55c002318fa0;
+T_0 ;
+    %wait E_0x55c0022e2890;
+    %load/vec4 v0x55c00232a680_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 4;
+    %assign/vec4 v0x55c00232a490_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x55c00232a490_0;
+    %cmpi/e 9, 0, 4;
+    %jmp/0xz  T_0.2, 4;
+    %pushi/vec4 0, 0, 4;
+    %assign/vec4 v0x55c00232a490_0, 0;
+    %jmp T_0.3;
+T_0.2 ;
+    %load/vec4 v0x55c00232a490_0;
+    %addi 1, 0, 4;
+    %assign/vec4 v0x55c00232a490_0, 0;
+T_0.3 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x55c002318e20;
+T_1 ;
+    %vpi_call 2 42 "$dumpfile", "wave.vcd" {0 0 0};
+    %vpi_call 2 43 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x55c002318e20 {0 0 0};
+    %end;
+    .thread T_1;
+    .scope S_0x55c002318e20;
+T_2 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55c00232aa50_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x55c00232a7c0_0, 0, 1;
+    %delay 25, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x55c00232aa50_0, 0, 1;
+    %delay 200, 0;
+    %vpi_call 2 51 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+    .scope S_0x55c002318e20;
+T_3 ;
+T_3.0 ;
+    %delay 5, 0;
+    %load/vec4 v0x55c00232a7c0_0;
+    %inv;
+    %store/vec4 v0x55c00232a7c0_0, 0, 1;
+    %jmp T_3.0;
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "counter_tb.v";
+    "counter.v";
